@@ -1,12 +1,12 @@
 import { Request } from 'express'
+import { RequestContext } from 'express-openid-connect'
 import { Strategy } from 'passport'
 import { Payload } from 'payload'
+import { UserDocument } from 'payload/auth'
 import { PaginatedDocs } from 'payload/dist/mongoose/types'
 import { pino } from 'pino'
 
 import { makeRandomPassword } from './utils'
-import { UserDocument } from 'payload/auth'
-import { RequestContext } from 'express-openid-connect'
 
 interface OidcUser extends UserDocument {
 	sub: string
@@ -58,7 +58,7 @@ export class LogtoStrategy extends Strategy {
 	}
 
 	async mergeUsers(foundUser: UserDocument, oidcUser: OidcUser): Promise<void> {
-		// TODO: add extra fields logic such as username/name
+		// TODO: add extra fields such as username/name
 		// oidcUser.username = oidcUser?.username || oidcUser?.name
 		const doc = await this.payload.update({
 			collection: this.slug,
